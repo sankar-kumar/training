@@ -25,7 +25,6 @@ if (!$con) {
     die('Could not connect: ' . mysqli_error($con));
 }
 
-mysqli_select_db($con,"ajax_demo");
 $sql="SELECT * FROM register WHERE id = '".$q."'";
 $result = mysqli_query($con,$sql);
 
@@ -36,6 +35,7 @@ echo "<table>
 <th>Gender</th>
 <th>Phone code</th>
 <th>Phone</th>
+<th>E-mail</th>
 </tr>";
 while($row = mysqli_fetch_array($result)) {
     echo "<tr>";
@@ -44,6 +44,7 @@ while($row = mysqli_fetch_array($result)) {
     echo "<td>" . $row['gender'] . "</td>";
     echo "<td>" . $row['phonecode'] . "</td>";
     echo "<td>" . $row['phone'] . "</td>";
+    echo "<td>" . $row['email'] . "</td>";
     echo "</tr>";
 }
 echo "</table>";

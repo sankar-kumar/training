@@ -12,7 +12,7 @@
    tr:nth-child(even){
       background-color: #dddddd;
    }
-      </style>
+   </style>
 </head>
 
 <?php
@@ -21,33 +21,34 @@ $password = $_POST['password'];
 $gender = $_POST['gender'];
 $phoneCode = $_POST['phoneCode'];
 $phone = $_POST['phone'];
-if (!empty($username) || !empty($password) || !empty($gender) || !empty($phoneCode) || !empty($phone)) {
+$email = $_POST['email'];
+if (!empty($username) || !empty($password) || !empty($gender) || !empty($phoneCode) || !empty($phone) || !empty($email)) {
  $host = "localhost";
     $dbUsername = "root";
     $dbPassword = "";
-    $dbname = "youtube";
+    $dbname = "user";
     //create connection
     $conn = new mysqli($host, $dbUsername, $dbPassword, $dbname);
     if (mysqli_connect_error()) {
      die('Connect Error('. mysqli_connect_errno().')'. mysqli_connect_error());
     } else {
-     $INSERT = "INSERT Into register (username, password, gender, phoneCode, phone) values(?, ?, ?, ?, ?)";
+     $INSERT = "INSERT Into register (username, password, gender, phoneCode, phone, email) values(?, ?, ?, ?, ?, ?)";
      
      if ($INSERT) {
         $stmt = $conn->prepare($INSERT);
-        $stmt->bind_param("sssii", $username, $password, $gender, $phoneCode, $phone);
+        $stmt->bind_param("sssiis", $username, $password, $gender, $phoneCode, $phone, $email);
         $stmt->execute();
       echo "New record inserted sucessfully";
      } else {
       echo "Not registered";
      }
-     $sql="SELECT Id,username,password,gender,phonecode,phone FROM register";
+     $sql="SELECT Id,username,password,gender,phonecode,phone,email FROM register";
      $result=$conn->query($sql);
 
      if($result->num_rows>0){
         echo "<table>";
         while($row=$result->fetch_assoc()){
-           echo "<tr><td> Id:" .$row['Id']."</td><td> username:" .$row['username']."</td><td> password:" .$row['password']."</td><td> gender:" .$row['gender']."</td><td> phonecode:" .$row['phonecode']."</td><td> phone:" .$row['phone']."</td></tr>";          
+           echo "<tr><td> Id:" .$row['Id']."</td><td> username:" .$row['username']."</td><td> password:" .$row['password']."</td><td> gender:" .$row['gender']."</td><td> phonecode:" .$row['phonecode']."</td><td> phone:" .$row['phone']."</td><td> email:" .$row['email']."</td></tr>";          
         }
         echo "</table>";
      }
@@ -60,6 +61,5 @@ if (!empty($username) || !empty($password) || !empty($gender) || !empty($phoneCo
 } else {
  echo "All field are required";
  die();
- header("refresh:2;url:form.html");
 }
 ?>
